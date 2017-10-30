@@ -27,12 +27,12 @@ except Exception as e:
 zone_id = ""
 zone_list = dict()
 for zone in response['HostedZones']:
-    if zone['Config']['PrivateZone'] == False:
+    if not zone['Config']['PrivateZone']:
         zone_list[zone['Name']] = zone['Id']
 
 for key in sorted(zone_list.iterkeys(), key=len, reverse=True):
     if key in "{z}.".format(z=fqdn):
-       zone_id = zone['Id']
+       zone_id = zone_list[key]
 
 if zone_id == "":
     print("We didn't find the zone")
