@@ -80,7 +80,7 @@ resource "aws_instance" "ChefServer" {
 
   provisioner "file" {
     source      = "${path.module}/files/dns_route53.py"
-    destination = "/tmp/terraform/dns_route53.prform apply"
+    destination = "/tmp/terraform/dns_route53.py"
 
     connection {
       type        = "ssh"

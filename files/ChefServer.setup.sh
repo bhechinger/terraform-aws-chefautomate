@@ -38,5 +38,6 @@ echo '/root/getssl -u -a -q' | sudo tee -a /etc/cron.daily/getssl
 
 sudo chef-server-ctl user-create ${admin_user} ${admin_fn} ${admin_ln} ${admin_email} '${admin_password}' --filename /root/${admin_user}.pem
 sudo chef-server-ctl org-create ${org} 'Endotronix' --filename /root/${admin_user}-validator.pem -a ${admin_user}
-sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
-sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
+sudo automate-ctl create-user default ${admin_user} --password '${admin_password}' --roles admin
+#sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
+#sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
