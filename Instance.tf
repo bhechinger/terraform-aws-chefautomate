@@ -19,6 +19,7 @@ data "template_file" "ChefServer_setup_script" {
     admin_ln          = "${var.admin_lastname}"
     admin_email       = "${var.admin_email}"
     org               = "${lower(var.chef_organization)}"
+    enterprise        = "${var.automate_enterprise}"
     admin_password    = "${var.admin_password}"
     access_key_id     = "${var.aws_access_key_id}"
     secret_access_key = "${var.aws_secret_access_key}"
