@@ -6,8 +6,8 @@ sleep 120
 sudo mv /tmp/terraform/* /root/
 sudo mv /tmp/terraform/.getssl/ /root/
 sudo chmod 755 /root/dns_route53.py
-sudo ln -s /root/dns_add_route53 /root/dns_route53.py
-sudo ln -s /root/dns_del_route53 /root/dns_route53.py
+sudo ln -s /root/dns_route53.py /root/dns_add_route53
+sudo ln -s /root/dns_route53.py /root/dns_del_route53
 sudo curl --silent -o /root/getssl https://raw.githubusercontent.com/srvrco/getssl/master/getssl
 sudo chmod 755 /root/getssl
 
