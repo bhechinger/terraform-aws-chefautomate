@@ -27,9 +27,12 @@ data "template_file" "ChefServer_setup_script" {
 }
 
 data "template_file" "aws_credentials" {
-  template          = "${file("${path.module}/files/aws_credentials")}"
-  access_key_id     = "${var.aws_access_key_id}"
-  secret_access_key = "${var.aws_secret_access_key}"
+  template = "${file("${path.module}/files/aws_credentials")}"
+
+  vars {
+    access_key_id     = "${var.aws_access_key_id}"
+    secret_access_key = "${var.aws_secret_access_key}"
+  }
 }
 
 resource "aws_instance" "ChefServer" {
