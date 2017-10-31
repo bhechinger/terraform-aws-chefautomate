@@ -18,17 +18,19 @@ sudo pip install boto3
 
 echo 'api_fqdn "${fqdn}"' | sudo tee -a /etc/chef-marketplace/marketplace.rb
 
-echo 'export AWS_ACCESS_KEY_ID="${access_key_id}"' | sudo tee -a /root/.bashrc
-echo 'export AWS_SECRET_ACCESS_KEY="${secret_access_key}"' | sudo tee -a /root/.bashrc
-echo 'export AWS_DEFAULT_REGION="${region}"' | sudo tee -a /root/.bashrc
-echo 'export AWS_REGION="${region}"' | sudo tee -a /root/.bashrc
+echo 'export AWS_ACCESS_KEY_ID="${access_key_id}"' | sudo tee -a /root/aws_creds
+echo 'export AWS_SECRET_ACCESS_KEY="${secret_access_key}"' | sudo tee -a /root/aws_creds
+echo 'export AWS_DEFAULT_REGION="${region}"' | sudo tee -a /root/aws_creds
+echo 'export AWS_REGION="${region}"' | sudo tee -a /root/aws_creds
 
 sudo chef-server-ctl stop
 sudo chef-marketplace-ctl hostname ${fqdn}
 sudo chef-server-ctl reconfigure
 sudo chef-server-ctl restart
 
-sudo chef-marketplace-ctl upgrade -y
+if "${upgrade}" == "true"; then
+    sudo chef-marketplace-ctl upgrade -y
+fi
 
 sudo chef-server-ctl reconfigure
 sudo automate-ctl reconfigure
@@ -38,6 +40,8 @@ echo '/root/getssl -u -a -q' | sudo tee -a /etc/cron.daily/getssl
 
 sudo chef-server-ctl user-create ${admin_user} ${admin_fn} ${admin_ln} ${admin_email} '${admin_password}' --filename /root/${admin_user}.pem
 sudo chef-server-ctl org-create ${org} 'Endotronix' --filename /root/${admin_user}-validator.pem -a ${admin_user}
-sudo automate-ctl create-user default ${admin_user} --password '${admin_password}' --roles admin
-#sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
-#sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
+
+if "${enterprise}" != "default"; then
+    sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
+fi
+sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin

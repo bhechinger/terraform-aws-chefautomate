@@ -24,6 +24,7 @@ data "template_file" "ChefServer_setup_script" {
     access_key_id     = "${var.aws_access_key_id}"
     secret_access_key = "${var.aws_secret_access_key}"
     region            = "${local.region}"
+    upgrade           = "${var.upgrade}"
   }
 }
 

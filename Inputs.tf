@@ -35,6 +35,10 @@ variable "automate_enterprise" {
   default = "default"
 }
 
+variable "upgrade_chef" {
+  default = true
+}
+
 # GetSSL (Let's Encrypt)
 variable "getssl_email" {}
 
