@@ -4,7 +4,7 @@ data template_file "getssl_cfg" {
   vars {
     email    = "${var.getssl_email}"
     san_list = "${var.san_list}"
-    fqdn     = "${var.fqdn}"
+    fqdn     = "${lower(var.fqdn)}"
     ca       = "${local.ca}"
   }
 }
@@ -13,7 +13,7 @@ data "template_file" "ChefServer_setup_script" {
   template = "${file("${path.module}/files/ChefServer.setup.sh")}"
 
   vars {
-    fqdn           = "${var.fqdn}"
+    fqdn           = "${lower(var.fqdn)}"
     admin_user     = "${var.admin_user}"
     admin_fn       = "${var.admin_firstname}"
     admin_ln       = "${var.admin_lastname}"
@@ -51,7 +51,7 @@ resource "aws_instance" "ChefServer" {
 
   provisioner "remote-exec" {
     inline = [
-      "mkdir -p /tmp/terraform/.getssl/${var.fqdn}",
+      "mkdir -p /tmp/terraform/.getssl/${lower(var.fqdn)}",
     ]
 
     connection {
@@ -76,7 +76,7 @@ resource "aws_instance" "ChefServer" {
 
   provisioner "file" {
     content     = "${data.template_file.getssl_cfg.rendered}"
-    destination = "/tmp/terraform/.getssl/${var.fqdn}/getssl.cfg"
+    destination = "/tmp/terraform/.getssl/${lower(var.fqdn)}/getssl.cfg"
 
     connection {
       type        = "ssh"
