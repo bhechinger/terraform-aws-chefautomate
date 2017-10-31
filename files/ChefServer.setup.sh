@@ -28,7 +28,7 @@ sudo chef-marketplace-ctl hostname ${fqdn}
 sudo chef-server-ctl reconfigure
 sudo chef-server-ctl restart
 
-if "${upgrade}" == "true"; then
+if "${upgrade_chef}" == "true"; then
     sudo chef-marketplace-ctl upgrade -y
 fi
 
