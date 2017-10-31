@@ -28,7 +28,7 @@ sudo chef-marketplace-ctl hostname ${fqdn}
 sudo chef-server-ctl reconfigure
 sudo chef-server-ctl restart
 
-if "${upgrade_chef}" == "true"; then
+if ["${upgrade_chef}" == "true"]; then
     sudo chef-marketplace-ctl upgrade -y
 fi
 
@@ -41,7 +41,7 @@ echo '/root/getssl -u -a -q' | sudo tee -a /etc/cron.daily/getssl
 sudo chef-server-ctl user-create ${admin_user} ${admin_fn} ${admin_ln} ${admin_email} '${admin_password}' --filename /root/${admin_user}.pem
 sudo chef-server-ctl org-create ${org} 'Endotronix' --filename /root/${admin_user}-validator.pem -a ${admin_user}
 
-if "${enterprise}" != "default"; then
+if ["${enterprise}" != "default"]; then
     sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
 fi
 sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
