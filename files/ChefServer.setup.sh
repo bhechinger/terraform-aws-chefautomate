@@ -4,10 +4,10 @@ echo 'Sleeping for a couple minutes to allow things to settle down first'
 sleep 120
 
 sudo mkdir /root/.aws
-sudo mv /tmp/terraform/* /root/
-sudo mv /tmp/terraform/.getssl /root/
 sudo mv /tmp/terraform/aws_credentials /root/.aws/credentials
 sudo chmod 600 /root/.aws/credentials
+sudo mv /tmp/terraform/* /root/
+sudo mv /tmp/terraform/.getssl /root/
 sudo chmod 755 /root/dns_route53.py
 sudo ln -s /root/dns_route53.py /root/dns_add_route53
 sudo ln -s /root/dns_route53.py /root/dns_del_route53
