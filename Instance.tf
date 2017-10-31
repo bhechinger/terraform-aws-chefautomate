@@ -21,11 +21,15 @@ data "template_file" "ChefServer_setup_script" {
     org               = "${lower(var.chef_organization)}"
     enterprise        = "${var.automate_enterprise}"
     admin_password    = "${var.admin_password}"
-    access_key_id     = "${var.aws_access_key_id}"
-    secret_access_key = "${var.aws_secret_access_key}"
     region            = "${local.region}"
     upgrade_chef      = "${var.upgrade_chef}"
   }
+}
+
+data "template_file" "aws_credentials" {
+  template = "${file("${path.module}/files/aws_credentials")}"
+  access_key_id     = "${var.aws_access_key_id}"
+  secret_access_key = "${var.aws_secret_access_key}"
 }
 
 resource "aws_instance" "ChefServer" {
@@ -46,6 +50,18 @@ resource "aws_instance" "ChefServer" {
     inline = [
       "mkdir -p /tmp/terraform/.getssl/${var.fqdn}",
     ]
+
+    connection {
+      type        = "ssh"
+      host        = "${self.private_ip}"
+      user        = "ec2-user"
+      private_key = "${var.ssh_key}"
+    }
+  }
+
+  provisioner "file" {
+    content     = "${data.template_file.aws_credentials.rendered}"
+    destination = "/tmp/terraform/aws_credentials"
 
     connection {
       type        = "ssh"

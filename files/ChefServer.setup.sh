@@ -3,8 +3,11 @@
 echo 'Sleeping for a couple minutes to allow things to settle down first'
 sleep 120
 
+sudo mkdir /root/.aws
 sudo mv /tmp/terraform/* /root/
-sudo mv /tmp/terraform/.getssl/ /root/
+sudo mv /tmp/terraform/.getssl /root/
+sudo mv /tmp/terraform/aws_credentials /root/.aws/credentials
+sudo chmod 600 /root/.aws/credentials
 sudo chmod 755 /root/dns_route53.py
 sudo ln -s /root/dns_route53.py /root/dns_add_route53
 sudo ln -s /root/dns_route53.py /root/dns_del_route53
@@ -18,11 +21,6 @@ sudo pip install boto3
 
 echo 'api_fqdn "${fqdn}"' | sudo tee -a /etc/chef-marketplace/marketplace.rb
 
-echo 'export AWS_ACCESS_KEY_ID="${access_key_id}"' | sudo tee -a /root/aws_creds
-echo 'export AWS_SECRET_ACCESS_KEY="${secret_access_key}"' | sudo tee -a /root/aws_creds
-echo 'export AWS_DEFAULT_REGION="${region}"' | sudo tee -a /root/aws_creds
-echo 'export AWS_REGION="${region}"' | sudo tee -a /root/aws_creds
-
 sudo chef-server-ctl stop
 sudo chef-marketplace-ctl hostname ${fqdn}
 sudo chef-server-ctl reconfigure
@@ -30,6 +28,7 @@ sudo chef-server-ctl restart
 
 if [ "${upgrade_chef}" == "true" ]; then
     sudo chef-marketplace-ctl upgrade -y
+    echo "Upgraded Chef Marketplace" > /tmp/foo
 fi
 
 sudo chef-server-ctl reconfigure
@@ -44,4 +43,5 @@ sudo chef-server-ctl org-create ${org} 'Endotronix' --filename /root/${admin_use
 if [ "${enterprise}" != "default" ]; then
     sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
 fi
+
 sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
