@@ -23,7 +23,7 @@ data "template_file" "ChefServer_setup_script" {
     admin_password   = "${var.admin_password}"
     region           = "${local.region}"
     upgrade_chef     = "${var.upgrade_chef}"
-    enable_telemetry = "${var.enable_telemety}"
+    enable_telemetry = "${var.enable_telemetry}"
   }
 }
 
