@@ -13,16 +13,17 @@ data "template_file" "ChefServer_setup_script" {
   template = "${file("${path.module}/files/ChefServer.setup.sh")}"
 
   vars {
-    fqdn           = "${lower(var.fqdn)}"
-    admin_user     = "${var.admin_user}"
-    admin_fn       = "${var.admin_firstname}"
-    admin_ln       = "${var.admin_lastname}"
-    admin_email    = "${var.admin_email}"
-    org            = "${lower(var.chef_organization)}"
-    enterprise     = "${var.automate_enterprise}"
-    admin_password = "${var.admin_password}"
-    region         = "${local.region}"
-    upgrade_chef   = "${var.upgrade_chef}"
+    fqdn             = "${lower(var.fqdn)}"
+    admin_user       = "${var.admin_user}"
+    admin_fn         = "${var.admin_firstname}"
+    admin_ln         = "${var.admin_lastname}"
+    admin_email      = "${var.admin_email}"
+    org              = "${lower(var.chef_organization)}"
+    enterprise       = "${var.automate_enterprise}"
+    admin_password   = "${var.admin_password}"
+    region           = "${local.region}"
+    upgrade_chef     = "${var.upgrade_chef}"
+    enable_telemetry = "${var.enable_telemety}"
   }
 }
 

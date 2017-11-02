@@ -43,6 +43,10 @@ variable "upgrade_chef" {
   default = true
 }
 
+variable "enable_telemetry" {
+  default = false
+}
+
 # GetSSL (Let's Encrypt)
 variable "getssl_email" {}
 

@@ -22,6 +22,10 @@ sudo pip install boto3
 
 echo 'api_fqdn "${fqdn}"' | sudo tee -a /etc/chef-marketplace/marketplace.rb
 
+if [ "${enable_telemetry}" == "true" ]; then
+    sudo automate-ctl telemetry enable
+fi
+
 sudo chef-server-ctl stop
 sudo chef-marketplace-ctl hostname ${fqdn}
 sudo chef-server-ctl reconfigure
