@@ -45,6 +45,7 @@ sudo chef-server-ctl user-create ${admin_user} ${admin_fn} ${admin_ln} ${admin_e
 sudo chef-server-ctl org-create ${org} 'Endotronix' --filename /root/${admin_user}-validator.pem -a ${admin_user}
 
 if [ "${enterprise}" != "default" ]; then
+    sudo automate-ctl delete-enterprise default
     sudo automate-ctl create-enterprise ${enterprise} --ssh-pub-key-file=/root/${admin_user}.pem
 fi
 
