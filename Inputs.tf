@@ -47,6 +47,10 @@ variable "enable_telemetry" {
   default = false
 }
 
+variable "bucket_name" {
+  default = "ChefAutomate"
+}
+
 # GetSSL (Let's Encrypt)
 variable "getssl_email" {}
 

@@ -9,7 +9,7 @@ sudo mv /tmp/terraform/aws_credentials /root/.aws/credentials
 sudo chmod 600 /root/.aws/credentials
 sudo mv /tmp/terraform/* /root/
 sudo mv /tmp/terraform/.getssl /root/
-sudo chmod 755 /root/dns_route53.py
+sudo chmod 755 /root/dns_route53.py /root/s3_upload.py
 sudo ln -s /root/dns_route53.py /root/dns_add_route53
 sudo ln -s /root/dns_route53.py /root/dns_del_route53
 sudo curl --silent -o /root/getssl https://raw.githubusercontent.com/srvrco/getssl/master/getssl
@@ -50,5 +50,7 @@ if [ "${enterprise}" != "default" ]; then
 fi
 
 sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
+
+sudo /root/s3_upload.py "${bucket_name}" "/root/${admin_user}-validator.pem" "/root/${admin_user}.pem" "${region}"
 
 echo "Done setting up Chef Automate server" > /tmp/setup_done

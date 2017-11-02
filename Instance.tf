@@ -24,6 +24,8 @@ data "template_file" "ChefServer_setup_script" {
     region           = "${local.region}"
     upgrade_chef     = "${var.upgrade_chef}"
     enable_telemetry = "${var.enable_telemetry}"
+    region           = "${local.region}"
+    bucket_name      = "${var.bucket_name}"
   }
 }
 
@@ -102,6 +104,18 @@ resource "aws_instance" "ChefServer" {
   provisioner "file" {
     source      = "${path.module}/files/dns_route53.py"
     destination = "/tmp/terraform/dns_route53.py"
+
+    connection {
+      type        = "ssh"
+      host        = "${self.private_ip}"
+      user        = "ec2-user"
+      private_key = "${var.ssh_key}"
+    }
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/files/s3_upload.py"
+    destination = "/tmp/terraform/s3_upload.py"
 
     connection {
       type        = "ssh"
