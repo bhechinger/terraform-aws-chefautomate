@@ -5,7 +5,7 @@ data template_file "getssl_cfg" {
     email    = "${var.getssl_email}"
     san_list = "${var.san_list}"
     fqdn     = "${lower(var.fqdn)}"
-    ca       = "${var.prod_ca == true ? local.prod_ca : local.stage_ca}"
+    ca       = "${var.prod_ca ? local.prod_ca : local.stage_ca}"
   }
 }
 
