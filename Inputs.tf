@@ -20,6 +20,10 @@ variable "vpc_security_group_ids" {
   type = "list"
 }
 
+variable "tags" {
+  default = {}
+}
+
 # Chef
 variable "admin_password" {}
 

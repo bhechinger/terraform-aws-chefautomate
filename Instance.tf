@@ -121,7 +121,5 @@ resource "aws_instance" "ChefServer" {
     }
   }
 
-  tags {
-    Name = "${var.fqdn}"
-  }
+  tags = "${var.tags}"
 }

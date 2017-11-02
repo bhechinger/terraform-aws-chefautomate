@@ -16,7 +16,7 @@ sudo chmod 755 /root/getssl
 
 sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 sudo yum update -y
-sudo yum install -y python-pip
+sudo yum install -y python-pip dnspython
 sudo pip install boto3
 
 echo 'api_fqdn "${fqdn}"' | sudo tee -a /etc/chef-marketplace/marketplace.rb
@@ -28,7 +28,6 @@ sudo chef-server-ctl restart
 
 if [ "${upgrade_chef}" == "true" ]; then
     sudo chef-marketplace-ctl upgrade -y
-    echo "Upgraded Chef Marketplace" > /tmp/foo
 fi
 
 sudo chef-server-ctl reconfigure
@@ -45,3 +44,5 @@ if [ "${enterprise}" != "default" ]; then
 fi
 
 sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
+
+echo "Done setting up Chef Automate server" > /tmp/setup_done
