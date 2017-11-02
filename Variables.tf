@@ -5,7 +5,6 @@ data "aws_region" "current" {
 locals {
   stage_ca = "https://acme-staging.api.letsencrypt.org"
   prod_ca  = "https://acme-v01.api.letsencrypt.org"
-  ca       = "${var.prod_ca == true ? local.prod_ca : local.stage_ca}"
   region   = "${data.aws_region.current.name}"
 
   AMIs = {
