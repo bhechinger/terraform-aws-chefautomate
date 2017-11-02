@@ -2,6 +2,7 @@
 
 echo 'Sleeping for a couple minutes to allow things to settle down first'
 sleep 120
+echo 'Done sleeping, let us get on with this'
 
 sudo mkdir /root/.aws
 sudo mv /tmp/terraform/aws_credentials /root/.aws/credentials
