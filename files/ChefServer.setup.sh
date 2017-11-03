@@ -51,6 +51,6 @@ fi
 
 sudo automate-ctl create-user ${enterprise} ${admin_user} --password '${admin_password}' --roles admin
 
-sudo /root/s3_upload.py "${bucket_name}" "/root/${admin_user}-validator.pem" "/root/${admin_user}.pem" "${region}"
+sudo /root/s3_upload.py "${bucket_name}" "/root/${admin_user}-validator.pem" "${admin_user}.pem" "${region}"
 
 echo "Done setting up Chef Automate server" > /tmp/setup_done
