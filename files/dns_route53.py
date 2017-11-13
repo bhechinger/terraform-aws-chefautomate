@@ -74,14 +74,15 @@ if action == 'UPSERT':
             data = str(results.response.answer[0][0]).strip('\"')
             if data == challenge:
                 print("found {f} entry".format(f=challenge_fqdn))
+                break
             else:
+                waiting += 10
                 print("found {f} entry but it has bad data: {d}".format(f=challenge_fqdn,
                                                                         d=data))
-            break
+                time.sleep(10)
 
         except dns.resolver.NXDOMAIN:
             waiting += 10
             print("Didn't find {f} entry yet, sleeping... ({w}s)".format(f=challenge_fqdn,
                                                                          w=waiting))
             time.sleep(10)
-            pass
